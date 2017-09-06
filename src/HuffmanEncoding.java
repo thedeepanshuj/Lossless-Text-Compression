@@ -43,34 +43,30 @@ public class HuffmanEncoding {
 		//create priority queue
 		PriorityQueue<MinHeapNode> priorityQueue = new PriorityQueue<>(new Comparator<MinHeapNode>() {
 			public int compare(MinHeapNode lhs, MinHeapNode rhs) {
-				if(lhs.getFreq() > rhs.getFreq()) {
-					
-					return 1;
-					
-				}
-				if(lhs.getFreq() < rhs.getFreq()) {
-					return -1;
-				}
+				if(lhs.getFreq() > rhs.getFreq())	return 1;
+				if(lhs.getFreq() < rhs.getFreq()) 	return -1;
 				return 0;
 			}
 		});
 		
+		
 		//add all to the priority queue
-		Iterator it = freqMap.entrySet().iterator();
-		while(it.hasNext()) {
-			@SuppressWarnings("unchecked")
-			Map.Entry<Character, Integer> pair = (Entry<Character, Integer>) it.next();
-			priorityQueue.add(new MinHeapNode(pair.getKey(), pair.getValue()));
-			it.remove();
+		for(char currentChar: freqMap.keySet()) {
+			priorityQueue.add(new MinHeapNode(currentChar, freqMap.get(currentChar)));
 		}
 		
+		
+		//pop all from priority queue and add to huffman tree
+		MinHeapNode root;
 		while(!priorityQueue.isEmpty()) {
-			MinHeapNode heapNode = priorityQueue.poll();
-			System.out.println("Queue"+heapNode.getData()+" "+heapNode.getFreq());
+			MinHeapNode left = priorityQueue.poll();
+			MinHeapNode right = priorityQueue.poll();
+			int newFreq = left.getFreq()+right.getFreq();
+			root = new MinHeapNode('\0',newFreq,left,right);
+			priorityQueue.add(root);
 		}
 		
-		//pop each value and add to the huffman tree
-		
+		//get bitString and cha
 		
 	}
 
