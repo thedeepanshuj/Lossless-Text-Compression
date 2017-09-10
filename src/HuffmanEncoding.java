@@ -1,43 +1,54 @@
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.BitSet;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
+import java.util.stream.Stream;
 
 public class HuffmanEncoding {
 
+	public static HashMap<BitSet,Character> decodingHashMap;
+	
 	//MAIN FUNCTION
 	public static void main(String[] args) {
 		
-		String sampleString = "fdfdfdfdfdfdfdfdfdfdfdfdfdfcfcfcfcfcfcfcfcfcfcfcfceeeeeeeeeee"
-				+ "fafafafafafbfbfbfbfbfbfbfbfbfefefefefef";
-		
 		//PATH TO THE FILE TO BE COMPRESSED
-		String path = "";
+		String path = "file.txt";
 		
 		//STRING TO STORE FILENAME FOR THE ENCODED FILE
-		String filename = "";
+		String filename = "file";
 		
 		//TEXT FROM THE FILE IS CONVERTED TO STRING
 		String dataToEncode = getStringFromPath(path);
 		
+		System.out.println("String to encode \n\t" + dataToEncode);
+		
 		//ENCODING MAPPING FOR THE STRING IS CREATED TO COMPRESS IT
-		HashMap<Character,BitSet> encodingHashMap = encodeString(sampleString);
+		HashMap<Character,BitSet> encodingHashMap = encodeString(dataToEncode);
 		
 		//COMPRESSED STRING FROM THE FUNCTION
-		BitSet encodedBitString = getBitSetfromString(sampleString,encodingHashMap);
+		BitSet encodedBitString = getBitSetfromString(dataToEncode,encodingHashMap);
 		
 		//HASHMAP USED FOR DECODING TO BE WRITTEN IN OUTPUT FROM CHARBITMAP
-		HashMap<BitSet,Character> decodingHashMap = reverseMap(encodingHashMap);
+		decodingHashMap = reverseMap(encodingHashMap);
 		
-		//TODO CREATING OUTPUT FILE FROM ENCODED STRING AND DECODING HASHMAP
+		CREATING OUTPUT FILE FROM ENCODED STRING AND DECODING HASHMAP
+		createOutputFile(path,encodedBitString);
+		
+		
+	}
+
+	//CREATE ENCODED OUTPUT FILE
+	private static void createOutputFile(String path, BitSet encodedBitString) {
 		byte[] byteArray = encodedBitString.toByteArray();
 		
-		
 		try {
-			FileOutputStream outputStream = new FileOutputStream("file.dji");
+			FileOutputStream outputStream = new FileOutputStream(filename+"_compressed.dji");
 			outputStream.write(byteArray);
 			System.out.println();
 		} catch (IOException e) {
@@ -60,10 +71,17 @@ public class HuffmanEncoding {
 	}
 
 	//FUNTION TO GET STRING FROM THE FILE AT THE GIVEN PATH
-	
-	private static String getStringFromPath(String path) {
-		// TODO Auto-generated method stub
-		return null;
+	private static String getStringFromPath(String filePath) {
+		 StringBuilder contentBuilder = new StringBuilder();
+		    try (Stream<String> stream = Files.lines( Paths.get(filePath), StandardCharsets.UTF_8))
+		    {
+		        stream.forEach(s -> contentBuilder.append(s).append("\n"));
+		    }
+		    catch (IOException e)
+		    {
+		        e.printStackTrace();
+		    }
+		    return contentBuilder.toString();
 	}
 
 	//FUNCTION TO GET BITSET FROM GIVEN TEXT USING THE CHARBIT HASHMAP
