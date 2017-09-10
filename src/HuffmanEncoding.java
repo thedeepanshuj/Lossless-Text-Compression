@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.BitSet;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -30,6 +33,18 @@ public class HuffmanEncoding {
 		HashMap<BitSet,Character> decodingHashMap = reverseMap(encodingHashMap);
 		
 		//TODO CREATING OUTPUT FILE FROM ENCODED STRING AND DECODING HASHMAP
+		byte[] byteArray = encodedBitString.toByteArray();
+		
+		
+		try {
+			FileOutputStream outputStream = new FileOutputStream("file.dji");
+			outputStream.write(byteArray);
+			System.out.println();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Output file not created");
+		}
 		
 	}
 
