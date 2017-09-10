@@ -1,14 +1,9 @@
 import java.util.BitSet;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.PriorityQueue;
 
 public class HuffmanEncoding {
-
-
 
 	//MAIN FUNCTION
 	public static void main(String[] args) {
@@ -19,25 +14,45 @@ public class HuffmanEncoding {
 		//PATH TO THE FILE TO BE COMPRESSED
 		String path = "";
 		
+		//STRING TO STORE FILENAME FOR THE ENCODED FILE
+		String filename = "";
+		
 		//TEXT FROM THE FILE IS CONVERTED TO STRING
 		String dataToEncode = getStringFromPath(path);
 		
 		//ENCODING MAPPING FOR THE STRING IS CREATED TO COMPRESS IT
-		HashMap<Character,BitSet> charBitMap = encodeString(dataToEncode);
+		HashMap<Character,BitSet> encodingHashMap = encodeString(sampleString);
 		
 		//COMPRESSED STRING FROM THE FUNCTION
-		BitSet encodedBitString = getBitSetfromString(dataToEncode,charBitMap);
+		BitSet encodedBitString = getBitSetfromString(sampleString,encodingHashMap);
 		
-		//TODO CREATE A FILE USING THE ENCODED-STRING AND HASHMAP
+		//HASHMAP USED FOR DECODING TO BE WRITTEN IN OUTPUT FROM CHARBITMAP
+		HashMap<BitSet,Character> decodingHashMap = reverseMap(encodingHashMap);
+		
+		//TODO CREATING OUTPUT FILE FROM ENCODED STRING AND DECODING HASHMAP
+		
+	}
+
+	//FUNCTION TO GIVE DECODING HASHMAP FROM ENCODING HASHMAP
+	private static HashMap<BitSet, Character> reverseMap(HashMap<Character, BitSet> charBitMap) {
+		
+		HashMap<BitSet, Character> mapToReturn = new HashMap<>();
+		for(char currentChar: charBitMap.keySet()) {
+			mapToReturn.put(charBitMap.get(currentChar), currentChar);
+		}
+		
+		return mapToReturn;
 	}
 
 	//FUNTION TO GET STRING FROM THE FILE AT THE GIVEN PATH
+	
 	private static String getStringFromPath(String path) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	//FUNCTION TO GET BITSET FROM GIVEN TEXT USING THE CHARBIT HASHMAP
+	
 	private static BitSet getBitSetfromString(String text, HashMap<Character, BitSet> charBitMap) {
 		
 		String temp = "";
@@ -56,6 +71,7 @@ public class HuffmanEncoding {
 	}
 
 	//FUNCTION TO RETURN HASHMAP TO ENCODE STRING
+	
 	private static HashMap<Character,BitSet> encodeString(String text) {
 		
 		HashMap<Character, Integer> freqMap = new HashMap<>();
@@ -72,7 +88,8 @@ public class HuffmanEncoding {
 		for(char currentChar: freqMap.keySet()) {
 			System.out.println("freqMap "+currentChar+ " " + freqMap.get(currentChar));
 		}
-			
+		System.out.println("\nfreqMap created\n");
+		
 		//CREATED PRIORITY QUEUE
 		PriorityQueue<MinHeapNode> priorityQueue = new PriorityQueue<>(new Comparator<MinHeapNode>() {
 			public int compare(MinHeapNode lhs, MinHeapNode rhs) {
@@ -81,14 +98,12 @@ public class HuffmanEncoding {
 				return 0;
 			}
 		});
-			
-			
+		
 		//ADD ALL HUFFMAN TREE NODES TO PRIORITY QUEUE
 		for(char currentChar: freqMap.keySet()) {
 			priorityQueue.add(new MinHeapNode(currentChar, freqMap.get(currentChar)));
 		}
-			
-			
+		
 		//CREATING A HUFFMAN TREE
 		MinHeapNode root = null;
 		while(priorityQueue.size()>1) {
@@ -102,7 +117,7 @@ public class HuffmanEncoding {
 			priorityQueue.add(root);
 		}
 			
-		System.out.println("huffman tree created");
+		System.out.println("\nhuffman tree created");
 			
 		//CHARACTER AND STRING MAP FROM THE HUFFMAN TREE
 		HashMap<Character,String> charStringMap = getMapfromTree(root,""); 
@@ -115,45 +130,44 @@ public class HuffmanEncoding {
 			charBitMap.put(currentChar, bitSet);
 		}
 		
-		System.out.println("charBit map created " + charBitMap.size());
+		System.out.println("\ncharBit map created of size " + charBitMap.size() + "\n");
 		return charBitMap;
 	}
-
-		
+	
 	//FUNCTION TO CONVERT GIVEN STRING TO BITSET
+	
 	private static BitSet getBitsetFromString(String bitString) {
-			if(bitString == null) {
-				return null;
-			}
-			BitSet bitset = new BitSet(bitString.length());
-			for(int i=0;i<bitString.length();i++) {
-				if(bitString.charAt(i)=='1') {
-					bitset.set(i);
-				}
-			}
-			return bitset;
+		if(bitString == null) {
+			return null;
 		}
+		BitSet bitset = new BitSet(bitString.length());
+		for(int i=0;i<bitString.length();i++) {
+			if(bitString.charAt(i)=='1') {
+				bitset.set(i);
+			}
+		}
+		return bitset;
+	}
 
 	//FUNCTION TO GIVE CHARACTER STRING HASHMAP FOR GIVEN HUFFMAN TREE
+	
 	private static HashMap<Character, String> getMapfromTree(MinHeapNode root,String currentString) {
-			if(root == null) {
-				return null;
-			}
-			
-			if(root.getLeft()== null && root.getRight() == null) {
-				HashMap<Character,String> newMap = new HashMap<>();
-				newMap.put(root.getData(), currentString);
-				return newMap;
-			}
-			
-			HashMap<Character,String> leftMap = getMapfromTree(root.getLeft(), currentString+"0");
-			HashMap<Character,String> rightMap = getMapfromTree(root.getRight(), currentString+"1");
-			
-			HashMap<Character,String> ans = new HashMap<>();
-			
-			ans.putAll(leftMap);
-			ans.putAll(rightMap);
-			
-			return ans;
-		}	
+		if(root == null) {
+			return null;
+		}
+		
+		if(root.getLeft()== null && root.getRight() == null) {
+			HashMap<Character,String> newMap = new HashMap<>();
+			newMap.put(root.getData(), currentString);
+			return newMap;
+		}
+		
+		HashMap<Character,String> leftMap = getMapfromTree(root.getLeft(), currentString+"0");
+		HashMap<Character,String> rightMap = getMapfromTree(root.getRight(), currentString+"1");
+		
+		HashMap<Character,String> ans = new HashMap<>();		
+		ans.putAll(leftMap);
+		ans.putAll(rightMap);
+		return ans;
+	}	
 }
