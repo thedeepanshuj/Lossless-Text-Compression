@@ -17,9 +17,6 @@ public class Encoding {
 		//TEXT FROM THE FILE IS CONVERTED TO STRING
 		String dataToEncode = Utils.getStringFromPath(path);
 		
-		
-		//System.out.println("String to encode \n\t" + dataToEncode);
-		
 		//ENCODING MAPPING FOR THE STRING IS CREATED TO COMPRESS IT
 		HashMap<Character, String> encodingHashMap = encodeString(dataToEncode);
 		
@@ -33,12 +30,12 @@ public class Encoding {
 		Utils.createOutputFile(path,encodedBitString,filename);
 		
 		System.out.println(" ***ENCODING FINISHED*** ");
-		
 	}
 
 	//FUNCTION TO RETURN HASHMAP TO ENCODE STRING
 	private static HashMap<Character, String> encodeString(String text) {
 		
+		//CREATING A HASHMAP FOR FREQUENCY OF DIFFERENT CHARACTERS IN STRING
 		HashMap<Character, Integer> freqMap = new HashMap<>();
 		for(int i=0;i<text.length();i++) {
 			char currentChar = text.charAt(i);
@@ -52,10 +49,10 @@ public class Encoding {
 		for(char currentChar: freqMap.keySet()) {
 			System.out.println("freqMap "+currentChar+ " " + freqMap.get(currentChar));
 		}
+		
 		System.out.println("\n ***freqMap created*** \n");
 		
 		//CREATED MIN PRIORITY QUEUE
-//		PriorityQueue<HuffmanNode> priorityQueue = new 
 		PriorityQueue<HuffmanNode> priorityQueue = new PriorityQueue<>();
 		
 		//ADD ALL HUFFMAN TREE NODES TO PRIORITY QUEUE

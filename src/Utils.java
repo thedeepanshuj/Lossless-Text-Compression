@@ -26,19 +26,28 @@ public class Utils {
 	
 	//FUNCTION TO GET BITSET FROM GIVEN TEXT USING THE CHARBIT HASHMAP
 	public static BitSet getBitSetfromString(String text, HashMap<Character, String> charBitMap) {
-		
 		String temp = "";
 		for(int i=0;i<text.length();i++) {
 			char currentChar = text.charAt(i);
 			temp += charBitMap.get(currentChar);
 		}
 		
+		//TODO: BUG IS HERE
 		BitSet bitset = new BitSet(temp.length());
 		for(int i=0;i<temp.length();i++) {
 			if(temp.charAt(i)=='1') {
 				bitset.set(i);
 			}
 		}
+		
+		for(int i=0;i<bitset.size();i++) {
+			if(bitset.get(i)) {
+				System.out.print("1");
+			}else {
+				System.out.print("0");
+			}
+		}
+		
 		return bitset;
 	}
 	
