@@ -9,9 +9,9 @@ public class Decoding {
 
 	public static void main(String[] args) {
 		
-		String pathMap = "";
+		String pathMap = "decodingHashMap.djm";
 		
-		//HashMap<String, Character> decodingMap = Utils.getHashMapFromFile(pathMap);
+		HashMap<String, Character> decodingMap = Utils.getHashMapFromFile(pathMap);
 		
 		String path = "file_compressed.djn";
 		

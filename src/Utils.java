@@ -1,6 +1,8 @@
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -45,7 +47,6 @@ public class Utils {
 		return bitset;
 	}
 	
-	
 	//CREATE ENCODED OUTPUT FILE
 	public static void createOutputFile(String path, BitSet encodedBitString, String filename) {
 		byte[] byteArray = encodedBitString.toByteArray();
@@ -75,17 +76,35 @@ public class Utils {
 	}
 
 	public static void hashMapToFile(HashMap<String, Character> decodingHashMap) {
-		File file = new File("decodingMap.properties"); 
-		FileOutputStream f;
 		try {
-			f = new FileOutputStream(file);
-			ObjectOutputStream s = new ObjectOutputStream(f); 
-			s.writeObject(decodingHashMap); 
-			s.close();
-			f.close();
+			FileOutputStream fileOut = new FileOutputStream("decodingHashMap.djm");
+			ObjectOutputStream outputStream = new ObjectOutputStream(fileOut);
+			outputStream.writeObject(decodingHashMap);
+			outputStream.close();
+			fileOut.close();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public static HashMap<String, Character> getHashMapFromFile(String pathMap) {
+		HashMap<String, Character> toReturn = null;
+		try {
+			FileInputStream fileIn = new FileInputStream(pathMap);
+			ObjectInputStream inputStream = new ObjectInputStream(fileIn);
+			toReturn = (HashMap<String, Character>) inputStream.readObject();
+			inputStream.close();
+			fileIn.close();
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("toReturn "+ toReturn);
+		return toReturn;
+	}
+	
+	
 
 }
