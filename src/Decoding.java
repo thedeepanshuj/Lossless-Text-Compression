@@ -11,13 +11,13 @@ public class Decoding {
 		
 		HashMap<String, Character> decodingMap = new HashMap<>();
 		
-		decodingMap.put("0", 'f');
-		decodingMap.put("100", 'c');
-		decodingMap.put("111", 'e');
-		decodingMap.put("101", 'd');
-		decodingMap.put("1101", 'b');
-		decodingMap.put("11001", 'a');
-		decodingMap.put("11000", '\0');
+		decodingMap.put("10", 'f');
+		decodingMap.put("1100", 'c');
+		decodingMap.put("1111", 'e');
+		decodingMap.put("1101", 'd');
+		decodingMap.put("11101", 'b');
+		decodingMap.put("111001", 'a');
+		decodingMap.put("111000", '\0');
 		
 		String path = "file_compressed.djn";
 		

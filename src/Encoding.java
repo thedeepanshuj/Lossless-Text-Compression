@@ -30,6 +30,8 @@ public class Encoding {
 		Utils.createOutputFile(path,encodedBitString,filename);
 		
 		System.out.println(" ***ENCODING FINISHED*** ");
+		
+		System.out.println(decodingHashMap);
 	}
 
 	//FUNCTION TO RETURN HASHMAP TO ENCODE STRING
@@ -76,7 +78,7 @@ public class Encoding {
 		System.out.println("\n ***Huffman tree created*** \n");
 			
 		//CHARACTER AND STRING MAP FROM THE HUFFMAN TREE
-		HashMap<Character,String> charStringMap = getMapfromTree(root,""); 
+		HashMap<Character,String> charStringMap = getMapfromTree(root,"1"); 
 		
 		return charStringMap;
 	}

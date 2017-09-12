@@ -40,6 +40,8 @@ public class Utils {
 			}
 		}
 		
+		System.out.println(bitset.length());
+		
 		for(int i=0;i<bitset.size();i++) {
 			if(bitset.get(i)) {
 				System.out.print("1");
