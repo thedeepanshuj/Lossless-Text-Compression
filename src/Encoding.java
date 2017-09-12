@@ -28,39 +28,36 @@ public class Encoding {
 		
 		//CREATING OUTPUT FILE FROM ENCODED STRING AND DECODING HASHMAP
 		Utils.createOutputFile(path,encodedBitString,filename);
-		
-		System.out.println(" ***ENCODING FINISHED*** ");
-		
-		System.out.println(decodingHashMap);
+		Utils.hashMapToFile(decodingHashMap);
+		System.out.println("***ENCODING FINISHED*** ");
 	}
 
 	//FUNCTION TO RETURN HASHMAP TO ENCODE STRING
 	private static HashMap<Character, String> encodeString(String text) {
 		
 		//CREATING A HASHMAP FOR FREQUENCY OF DIFFERENT CHARACTERS IN STRING
-		HashMap<Character, Integer> freqMap = new HashMap<>();
+		int[] freqArray = new int[256];
 		for(int i=0;i<text.length();i++) {
 			char currentChar = text.charAt(i);
-			freqMap.putIfAbsent(currentChar, 0);
-			int oldFreq = freqMap.get(currentChar);
-			oldFreq++;
-			freqMap.put(currentChar, oldFreq);
+			freqArray[currentChar]++;
 		}
 		
 		//JUST TO CHECK IF FREQUENCIES ARE CORRECT
-		for(char currentChar: freqMap.keySet()) {
-			System.out.println("freqMap "+currentChar+ " " + freqMap.get(currentChar));
-		}
 		
-		System.out.println("\n ***freqMap created*** \n");
+		System.out.println("***FREQUENCY ARRAY CREATED*** \n");
 		
 		//CREATED MIN PRIORITY QUEUE
 		PriorityQueue<HuffmanNode> priorityQueue = new PriorityQueue<>();
 		
 		//ADD ALL HUFFMAN TREE NODES TO PRIORITY QUEUE
-		for(char currentChar: freqMap.keySet()) {
-			priorityQueue.add(new HuffmanNode(currentChar, freqMap.get(currentChar)));
+		for(int i=0;i<freqArray.length;i++) {
+			char currentChar = (char) i;
+			if(freqArray[i]==0) {
+				continue;
+			}
+			priorityQueue.add(new HuffmanNode(currentChar, freqArray[i]));
 		}
+		System.out.println("***PRIORITY QUEUE CREATED*** \n");
 		
 		//CREATING A HUFFMAN TREE
 		HuffmanNode root = null;
@@ -68,14 +65,14 @@ public class Encoding {
 			HuffmanNode left = priorityQueue.poll();
 			HuffmanNode right = priorityQueue.poll();
 			int newFreq;
-			System.out.println("priorityQueue "+left.getData()+ " " + left.getFreq());
-			System.out.println("priorityQueue "+right.getData()+ " " + right.getFreq());
+			//System.out.println("priorityQueue "+left.getData()+ " " + left.getFreq());
+			//System.out.println("priorityQueue "+right.getData()+ " " + right.getFreq());
 			newFreq = left.getFreq()+right.getFreq();
 			root = new HuffmanNode('\0',newFreq,left,right);
 			priorityQueue.add(root);
 		}
 			
-		System.out.println("\n ***Huffman tree created*** \n");
+		System.out.println("***HUFFMAN TREE CREATED***");
 			
 		//CHARACTER AND STRING MAP FROM THE HUFFMAN TREE
 		HashMap<Character,String> charStringMap = getMapfromTree(root,"1"); 

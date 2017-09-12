@@ -1,5 +1,7 @@
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,7 +34,6 @@ public class Utils {
 			temp += charBitMap.get(currentChar);
 		}
 		
-		//TODO: BUG IS HERE
 		BitSet bitset = new BitSet(temp.length());
 		for(int i=0;i<temp.length();i++) {
 			if(temp.charAt(i)=='1') {
@@ -40,15 +41,6 @@ public class Utils {
 			}
 		}
 		
-		System.out.println(bitset.length());
-		
-		for(int i=0;i<bitset.size();i++) {
-			if(bitset.get(i)) {
-				System.out.print("1");
-			}else {
-				System.out.print("0");
-			}
-		}
 		
 		return bitset;
 	}
@@ -81,4 +73,19 @@ public class Utils {
 		
 		return mapToReturn;
 	}
+
+	public static void hashMapToFile(HashMap<String, Character> decodingHashMap) {
+		File file = new File("decodingMap.properties"); 
+		FileOutputStream f;
+		try {
+			f = new FileOutputStream(file);
+			ObjectOutputStream s = new ObjectOutputStream(f); 
+			s.writeObject(decodingHashMap); 
+			s.close();
+			f.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

@@ -9,15 +9,9 @@ public class Decoding {
 
 	public static void main(String[] args) {
 		
-		HashMap<String, Character> decodingMap = new HashMap<>();
+		String pathMap = "";
 		
-		decodingMap.put("10", 'f');
-		decodingMap.put("1100", 'c');
-		decodingMap.put("1111", 'e');
-		decodingMap.put("1101", 'd');
-		decodingMap.put("11101", 'b');
-		decodingMap.put("111001", 'a');
-		decodingMap.put("111000", '\0');
+		//HashMap<String, Character> decodingMap = Utils.getHashMapFromFile(pathMap);
 		
 		String path = "file_compressed.djn";
 		
@@ -31,7 +25,6 @@ public class Decoding {
 		String tempString = "";
 		for(int i = 0;i<bitData.size();i++) {
 			if(tempString==null) {
-				System.out.println("Sahi pakde");
 				return;
 			}
 			if(decodingMap!=null && decodingMap.containsKey(tempString)) {
