@@ -1,23 +1,31 @@
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Decoding {
 
 	public static void main(String[] args) {
 
-		String path = "file.txt_compressed.djn";
+		Scanner pathInput = new Scanner(System.in);
+		System.out.println("Enter the path to the file to be decompressed : \n");
+		String path = pathInput.nextLine();
+		pathInput.close();
+		if(path.equals("")|| path==null) {
+			System.out.println("INVALID PATH");
+			return;
+		}
+
 		HashMap<String,Object> encodedMap = Utils.getMapFromFilePath(path);
 		System.out.println(encodedMap);
+		if(encodedMap == null) {
+			return;
+		}
 		
 		@SuppressWarnings("unchecked")
 		HashMap<String, Character> decodingMap = (HashMap<String, Character>) encodedMap.get("decodingMap");		
 		
 		byte[] dataToDecode = (byte[]) encodedMap.get("outputContents");
 		BitSet bitData = BitSet.valueOf(dataToDecode);
-		System.out.println(bitData);
 		
 		String decodedString = "";
 		String tempString = "";
@@ -39,8 +47,6 @@ public class Decoding {
 		}
 		
 		System.out.println("decoded String - " + decodedString);
-		
-		//TODO: take input to generate output file or not 
 		
 		System.out.println("\n ***DECODING DONE*** \n\n ");
 	}

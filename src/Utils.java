@@ -83,8 +83,8 @@ public class Utils {
 			inputStream.close();
 			fileIn.close();
 		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("INVALID PATH OR FILE");
+			return null;
 		}
 		//System.out.println("toReturn "+ toReturn);
 		return toReturn;
