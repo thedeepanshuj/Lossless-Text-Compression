@@ -55,7 +55,6 @@ public class Encoding {
 		}
 		
 		//JUST TO CHECK IF FREQUENCIES ARE CORRECT
-		
 		System.out.println("\n ***FREQUENCY ARRAY CREATED***");
 		
 		//CREATED MIN PRIORITY QUEUE
