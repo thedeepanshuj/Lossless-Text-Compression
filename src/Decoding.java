@@ -1,25 +1,23 @@
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.ObjectInputStream;
 import java.util.BitSet;
 import java.util.HashMap;
 
 public class Decoding {
 
 	public static void main(String[] args) {
+
+		String path = "file.txt_compressed.djn";
+		HashMap<String,Object> encodedMap = Utils.getMapFromFilePath(path);
+		System.out.println(encodedMap);
 		
-		String pathMap = "decodingHashMap.djm";
+		@SuppressWarnings("unchecked")
+		HashMap<String, Character> decodingMap = (HashMap<String, Character>) encodedMap.get("decodingMap");		
 		
-		HashMap<String, Character> decodingMap = Utils.getHashMapFromFile(pathMap);
-		
-		String path = "file_compressed.djn";
-		
-//		String fileName = "file_compressed";
-		
-		byte[] dataToDecode = getEncodedByteArray(path);
-		
+		byte[] dataToDecode = (byte[]) encodedMap.get("outputContents");
 		BitSet bitData = BitSet.valueOf(dataToDecode);
+		System.out.println(bitData);
 		
 		String decodedString = "";
 		String tempString = "";
@@ -41,21 +39,11 @@ public class Decoding {
 		}
 		
 		System.out.println("decoded String - " + decodedString);
-		System.out.println("\n\n ***DECODING DONE*** \n\n ");
-	}
-
-	private static byte[] getEncodedByteArray(String path) {
 		
-		try {
-			Path filePath = Paths.get(path);
-			byte[] data;
-			data = Files.readAllBytes(filePath);
-			return data;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-
+		//TODO: take input to generate output file or not 
+		
+		System.out.println("\n ***DECODING DONE*** \n\n ");
 	}
+
+	
 }

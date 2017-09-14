@@ -1,5 +1,4 @@
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -47,23 +46,6 @@ public class Utils {
 		return bitset;
 	}
 	
-	//CREATE ENCODED OUTPUT FILE
-	public static void createOutputFile(String path, BitSet encodedBitString, String filename) {
-		byte[] byteArray = encodedBitString.toByteArray();
-		
-		try {
-			FileOutputStream outputStream = new FileOutputStream(filename+"_compressed.djn");
-			outputStream.write(byteArray);
-			outputStream.close();
-			System.out.println();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Output file not created");
-		}
-		
-	}
-	
 	//FUNCTION TO GIVE DECODING HASHMAP FROM ENCODING HASHMAP
 	public static HashMap<String, Character> reverseMap(HashMap<Character, String> charBitMap) {
 		
@@ -75,36 +57,36 @@ public class Utils {
 		return mapToReturn;
 	}
 
-	public static void hashMapToFile(HashMap<String, Character> decodingHashMap) {
+
+	//FUNCTION TO CREATE AN OUTPUT FILE FOR THE GIVEN PATH
+	public static void createOutputFile(HashMap<String, Object> output, String path) {
 		try {
-			FileOutputStream fileOut = new FileOutputStream("decodingHashMap.djm");
+			FileOutputStream fileOut = new FileOutputStream(path+"_compressed.djn");
 			ObjectOutputStream outputStream = new ObjectOutputStream(fileOut);
-			outputStream.writeObject(decodingHashMap);
+			outputStream.writeObject(output);
 			outputStream.close();
 			fileOut.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Utils line 87");
 			e.printStackTrace();
 		}
 	}
-
+	
+	//FUNCTION TO GET HASHMAP FROM THE GIVEN PATH
 	@SuppressWarnings("unchecked")
-	public static HashMap<String, Character> getHashMapFromFile(String pathMap) {
-		HashMap<String, Character> toReturn = null;
+	public static HashMap<String, Object> getMapFromFilePath(String path) {
+		HashMap<String, Object> toReturn = null;
 		try {
-			FileInputStream fileIn = new FileInputStream(pathMap);
+			FileInputStream fileIn = new FileInputStream(path);
 			ObjectInputStream inputStream = new ObjectInputStream(fileIn);
-			toReturn = (HashMap<String, Character>) inputStream.readObject();
+			toReturn = (HashMap<String, Object>) inputStream.readObject();
 			inputStream.close();
 			fileIn.close();
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("toReturn "+ toReturn);
+		//System.out.println("toReturn "+ toReturn);
 		return toReturn;
 	}
-	
-	
-
 }

@@ -1,35 +1,47 @@
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class Encoding {
-
-	public static HashMap<String, Character> decodingHashMap;
 	
 	public static void main(String[] args) {
 		
 		//PATH TO THE FILE TO BE COMPRESSED
-		String path = "file.txt";
+		Scanner sc = new Scanner(System.in);
 		
-		//STRING TO STORE FILENAME FOR THE ENCODED FILE
-		String filename = "file";
+		System.out.println("Enter the path to the file to be compressed : \n");
+		String path = sc.nextLine();
+		sc.close();
+		if(path.equals("")|| path==null) {
+			System.out.println("INVALID PATH");
+			return;
+		}
 		
 		//TEXT FROM THE FILE IS CONVERTED TO STRING
 		String dataToEncode = Utils.getStringFromPath(path);
+		if(dataToEncode.equals("")||dataToEncode==null) {
+			System.out.println("INVALID DATA");
+			return;
+		}
 		
 		//ENCODING MAPPING FOR THE STRING IS CREATED TO COMPRESS IT
 		HashMap<Character, String> encodingHashMap = encodeString(dataToEncode);
 		
-		//COMPRESSED STRING FROM THE FUNCTION
+		//COMPRESSED STRING FROM THE FUNCTION AND CONVERT IT TO BYTE ARRAY
 		BitSet encodedBitString = Utils.getBitSetfromString(dataToEncode,encodingHashMap);
+		byte[] encodedByteArray = encodedBitString.toByteArray();
 		
 		//HASHMAP USED FOR DECODING TO BE WRITTEN IN OUTPUT FROM CHARBITMAP
-		decodingHashMap = Utils.reverseMap(encodingHashMap);
+		HashMap<String, Character> decodingHashMap = Utils.reverseMap(encodingHashMap);
 		
-		//CREATING OUTPUT FILE FROM ENCODED STRING AND DECODING HASHMAP
-		Utils.createOutputFile(path,encodedBitString,filename);
-		Utils.hashMapToFile(decodingHashMap);
-		System.out.println("***ENCODING FINISHED*** ");
+		//CREATING OUTPUT FILE
+		HashMap<String, Object> output = new HashMap<>();
+		output.put("decodingMap", decodingHashMap);
+		output.put("outputContents", encodedByteArray);
+		Utils.createOutputFile(output,path);
+
+		System.out.println("\n ***ENCODING FINISHED*** ");
 	}
 
 	//FUNCTION TO RETURN HASHMAP TO ENCODE STRING
@@ -44,7 +56,7 @@ public class Encoding {
 		
 		//JUST TO CHECK IF FREQUENCIES ARE CORRECT
 		
-		System.out.println("***FREQUENCY ARRAY CREATED*** \n");
+		System.out.println("\n ***FREQUENCY ARRAY CREATED***");
 		
 		//CREATED MIN PRIORITY QUEUE
 		PriorityQueue<HuffmanNode> priorityQueue = new PriorityQueue<>();
@@ -57,7 +69,7 @@ public class Encoding {
 			}
 			priorityQueue.add(new HuffmanNode(currentChar, freqArray[i]));
 		}
-		System.out.println("***PRIORITY QUEUE CREATED*** \n");
+		System.out.println("\n ***PRIORITY QUEUE CREATED***");
 		
 		//CREATING A HUFFMAN TREE
 		HuffmanNode root = null;
@@ -65,14 +77,12 @@ public class Encoding {
 			HuffmanNode left = priorityQueue.poll();
 			HuffmanNode right = priorityQueue.poll();
 			int newFreq;
-			//System.out.println("priorityQueue "+left.getData()+ " " + left.getFreq());
-			//System.out.println("priorityQueue "+right.getData()+ " " + right.getFreq());
 			newFreq = left.getFreq()+right.getFreq();
-			root = new HuffmanNode('\0',newFreq,left,right);
+			root = new HuffmanNode('$',newFreq,left,right);
 			priorityQueue.add(root);
 		}
 			
-		System.out.println("***HUFFMAN TREE CREATED***");
+		System.out.println("\n ***HUFFMAN TREE CREATED***");
 			
 		//CHARACTER AND STRING MAP FROM THE HUFFMAN TREE
 		HashMap<Character,String> charStringMap = getMapfromTree(root,"1"); 
@@ -80,7 +90,7 @@ public class Encoding {
 		return charStringMap;
 	}
 	
-	//FUNCTION TO GIVE CHARACTER STRING HASHMAP FOR GIVEN HUFFMAN TREE
+	//FUNCTION TO GIVE CHARACTER TO STRING HASHMAP FOR GIVEN HUFFMAN TREE
 	private static HashMap<Character, String> getMapfromTree(HuffmanNode root,String currentString) {
 		if(root == null) {
 			return null;
