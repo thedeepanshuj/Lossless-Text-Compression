@@ -37,8 +37,8 @@ public class Encoding {
 		
 		//CREATING OUTPUT FILE
 		HashMap<String, Object> output = new HashMap<>();
-		output.put("decodingMap", decodingHashMap);
-		output.put("outputContents", encodedByteArray);
+		output.put("M", decodingHashMap);
+		output.put("D", encodedByteArray);
 		Utils.createOutputFile(output,path);
 
 		System.out.println("\n ***ENCODING FINISHED*** ");
@@ -55,6 +55,7 @@ public class Encoding {
 		}
 		
 		//JUST TO CHECK IF FREQUENCIES ARE CORRECT
+		
 		System.out.println("\n ***FREQUENCY ARRAY CREATED***");
 		
 		//CREATED MIN PRIORITY QUEUE

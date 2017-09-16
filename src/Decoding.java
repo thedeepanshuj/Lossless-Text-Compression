@@ -22,9 +22,9 @@ public class Decoding {
 		}
 		
 		@SuppressWarnings("unchecked")
-		HashMap<String, Character> decodingMap = (HashMap<String, Character>) encodedMap.get("decodingMap");		
+		HashMap<String, Character> decodingMap = (HashMap<String, Character>) encodedMap.get("M");		
 		
-		byte[] dataToDecode = (byte[]) encodedMap.get("outputContents");
+		byte[] dataToDecode = (byte[]) encodedMap.get("D");
 		BitSet bitData = BitSet.valueOf(dataToDecode);
 		
 		String decodedString = "";

@@ -40,9 +40,7 @@ public class Utils {
 			if(temp.charAt(i)=='1') {
 				bitset.set(i);
 			}
-		}
-		
-		
+		}		
 		return bitset;
 	}
 	
@@ -61,7 +59,7 @@ public class Utils {
 	//FUNCTION TO CREATE AN OUTPUT FILE FOR THE GIVEN PATH
 	public static void createOutputFile(HashMap<String, Object> output, String path) {
 		try {
-			FileOutputStream fileOut = new FileOutputStream(path+"_compressed.djn");
+			FileOutputStream fileOut = new FileOutputStream(path+".djn");
 			ObjectOutputStream outputStream = new ObjectOutputStream(fileOut);
 			outputStream.writeObject(output);
 			outputStream.close();
