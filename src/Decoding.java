@@ -15,16 +15,16 @@ public class Decoding {
 			return;
 		}
 
-		HashMap<String,Object> encodedMap = Utils.getMapFromFilePath(path);
+		HashMap<Character,Object> encodedMap = Utils.getMapFromFilePath(path);
 		System.out.println(encodedMap);
 		if(encodedMap == null) {
 			return;
 		}
 		
 		@SuppressWarnings("unchecked")
-		HashMap<String, Character> decodingMap = (HashMap<String, Character>) encodedMap.get("M");		
+		HashMap<String, Character> decodingMap = (HashMap<String, Character>) encodedMap.get('M');		
 		
-		byte[] dataToDecode = (byte[]) encodedMap.get("D");
+		byte[] dataToDecode = (byte[]) encodedMap.get('D');
 		BitSet bitData = BitSet.valueOf(dataToDecode);
 		
 		String decodedString = "";

@@ -36,9 +36,9 @@ public class Encoding {
 		HashMap<String, Character> decodingHashMap = Utils.reverseMap(encodingHashMap);
 		
 		//CREATING OUTPUT FILE
-		HashMap<String, Object> output = new HashMap<>();
-		output.put("M", decodingHashMap);
-		output.put("D", encodedByteArray);
+		HashMap<Character, Object> output = new HashMap<>();
+		output.put('M', decodingHashMap);
+		output.put('D', encodedByteArray);
 		Utils.createOutputFile(output,path);
 
 		System.out.println("\n ***ENCODING FINISHED*** ");

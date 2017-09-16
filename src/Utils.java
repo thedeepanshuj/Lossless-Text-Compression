@@ -57,7 +57,7 @@ public class Utils {
 
 
 	//FUNCTION TO CREATE AN OUTPUT FILE FOR THE GIVEN PATH
-	public static void createOutputFile(HashMap<String, Object> output, String path) {
+	public static void createOutputFile(HashMap<Character, Object> output, String path) {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(path+".djn");
 			ObjectOutputStream outputStream = new ObjectOutputStream(fileOut);
@@ -72,12 +72,12 @@ public class Utils {
 	
 	//FUNCTION TO GET HASHMAP FROM THE GIVEN PATH
 	@SuppressWarnings("unchecked")
-	public static HashMap<String, Object> getMapFromFilePath(String path) {
-		HashMap<String, Object> toReturn = null;
+	public static HashMap<Character, Object> getMapFromFilePath(String path) {
+		HashMap<Character, Object> toReturn = null;
 		try {
 			FileInputStream fileIn = new FileInputStream(path);
 			ObjectInputStream inputStream = new ObjectInputStream(fileIn);
-			toReturn = (HashMap<String, Object>) inputStream.readObject();
+			toReturn = (HashMap<Character, Object>) inputStream.readObject();
 			inputStream.close();
 			fileIn.close();
 		} catch (IOException | ClassNotFoundException e) {
