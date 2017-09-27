@@ -36,10 +36,10 @@ public class Encoding {
 		
 		startTime = System.currentTimeMillis();
 		//COMPRESSED STRING FROM THE FUNCTION AND CONVERT IT TO BYTE ARRAY
-		BitSet encodedBitString = Utils.getBitSetfromString(dataToEncode,encodingHashMap);
-		duration = System.currentTimeMillis() - startTime;
+		BitSet encodedBitString = Utils.getBitSetfromString(dataToEncode,encodingHashMap,startTime);
+	//	duration = System.currentTimeMillis() - startTime;
 		startTime = System.currentTimeMillis();
-		System.out.println("\nString to Bitset in "+ duration);
+	//	System.out.println("\nString to Bitset in "+ duration);
 		
 		byte[] encodedByteArray = encodedBitString.toByteArray();
 		duration = System.currentTimeMillis() - startTime;

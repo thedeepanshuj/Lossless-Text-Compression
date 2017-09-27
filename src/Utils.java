@@ -28,19 +28,27 @@ public class Utils {
 	}
 	
 	//FUNCTION TO GET BITSET FROM GIVEN TEXT USING THE CHARBIT HASHMAP
-	public static BitSet getBitSetfromString(String text, HashMap<Character, String> charBitMap) {
+	public static BitSet getBitSetfromString(String text, HashMap<Character, String> charBitMap, long startTime) {
 		String temp = "";
 		for(int i=0;i<text.length();i++) {
 			char currentChar = text.charAt(i);
 			temp += charBitMap.get(currentChar);
 		}
+		long duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nString to bitString in "+ duration);
+		
 		
 		BitSet bitset = new BitSet(temp.length());
 		for(int i=0;i<temp.length();i++) {
 			if(temp.charAt(i)=='1') {
 				bitset.set(i);
 			}
-		}		
+		}
+		duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nBitString to Bitset in "+ duration);
+		
 		return bitset;
 	}
 	
