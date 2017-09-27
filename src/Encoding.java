@@ -7,6 +7,8 @@ public class Encoding {
 	
 	public static void main(String[] args) {
 		
+		long startTime = System.currentTimeMillis();
+		
 		//PATH TO THE FILE TO BE COMPRESSED
 		Scanner sc = new Scanner(System.in);
 		
@@ -24,28 +26,48 @@ public class Encoding {
 			System.out.println("INVALID DATA");
 			return;
 		}
+		long duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nInput file read in "+ duration);
+		
 		
 		//ENCODING MAPPING FOR THE STRING IS CREATED TO COMPRESS IT
-		HashMap<Character, String> encodingHashMap = encodeString(dataToEncode);
+		HashMap<Character, String> encodingHashMap = encodeString(dataToEncode,startTime);
 		
+		startTime = System.currentTimeMillis();
 		//COMPRESSED STRING FROM THE FUNCTION AND CONVERT IT TO BYTE ARRAY
 		BitSet encodedBitString = Utils.getBitSetfromString(dataToEncode,encodingHashMap);
+		duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nString to Bitset in "+ duration);
+		
 		byte[] encodedByteArray = encodedBitString.toByteArray();
+		duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nBitset to Byte Array in "+ duration);
 		
 		//HASHMAP USED FOR DECODING TO BE WRITTEN IN OUTPUT FROM CHARBITMAP
 		HashMap<String, Character> decodingHashMap = Utils.reverseMap(encodingHashMap);
+		duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nDecoding Hashmap created in "+ duration);
+		
 		
 		//CREATING OUTPUT FILE
 		HashMap<Character, Object> output = new HashMap<>();
 		output.put('M', decodingHashMap);
 		output.put('D', encodedByteArray);
 		Utils.createOutputFile(output,path);
+		
+		duration = System.currentTimeMillis() - startTime;
+		System.out.println("\nOutput file created in "+ duration);
+		
 
 		System.out.println("\n ***ENCODING FINISHED*** ");
 	}
 
 	//FUNCTION TO RETURN HASHMAP TO ENCODE STRING
-	private static HashMap<Character, String> encodeString(String text) {
+	private static HashMap<Character, String> encodeString(String text, long startTime) {
 		
 		//CREATING A HASHMAP FOR FREQUENCY OF DIFFERENT CHARACTERS IN STRING
 		int[] freqArray = new int[256];
@@ -55,8 +77,9 @@ public class Encoding {
 		}
 		
 		//JUST TO CHECK IF FREQUENCIES ARE CORRECT
-		
-		System.out.println("\n ***FREQUENCY ARRAY CREATED***");
+		long duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nFrequency Array created in "+ duration);
 		
 		//CREATED MIN PRIORITY QUEUE
 		PriorityQueue<HuffmanNode> priorityQueue = new PriorityQueue<>();
@@ -69,7 +92,10 @@ public class Encoding {
 			}
 			priorityQueue.add(new HuffmanNode(currentChar, freqArray[i]));
 		}
-		System.out.println("\n ***PRIORITY QUEUE CREATED***");
+		
+		duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nPriority Queue created in "+ duration);
 		
 		//CREATING A HUFFMAN TREE
 		HuffmanNode root = null;
@@ -81,11 +107,16 @@ public class Encoding {
 			root = new HuffmanNode('$',newFreq,left,right);
 			priorityQueue.add(root);
 		}
-			
-		System.out.println("\n ***HUFFMAN TREE CREATED***");
+		
+		duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nHuffman Tree created in "+ duration);
 			
 		//CHARACTER AND STRING MAP FROM THE HUFFMAN TREE
 		HashMap<Character,String> charStringMap = getMapfromTree(root,"1"); 
+		duration = System.currentTimeMillis() - startTime;
+		startTime = System.currentTimeMillis();
+		System.out.println("\nEncoding HashMap created in "+ duration);
 		
 		return charStringMap;
 	}
