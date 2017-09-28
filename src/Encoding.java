@@ -6,9 +6,7 @@ import java.util.Scanner;
 public class Encoding {
 	
 	public static void main(String[] args) {
-		
-		long startTime = System.currentTimeMillis();
-		
+				
 		//PATH TO THE FILE TO BE COMPRESSED
 		Scanner sc = new Scanner(System.in);
 		
@@ -26,31 +24,21 @@ public class Encoding {
 			System.out.println("INVALID DATA");
 			return;
 		}
-		long duration = System.currentTimeMillis() - startTime;
-		startTime = System.currentTimeMillis();
-		System.out.println("\nInput file read in "+ duration);
+		System.out.println("\nInput file read");
 		
 		
 		//ENCODING MAPPING FOR THE STRING IS CREATED TO COMPRESS IT
-		HashMap<Character, String> encodingHashMap = encodeString(dataToEncode,startTime);
+		HashMap<Character, String> encodingHashMap = encodeString(dataToEncode);
 		
-		startTime = System.currentTimeMillis();
 		//COMPRESSED STRING FROM THE FUNCTION AND CONVERT IT TO BYTE ARRAY
-		BitSet encodedBitString = Utils.getBitSetfromString(dataToEncode,encodingHashMap,startTime);
-	//	duration = System.currentTimeMillis() - startTime;
-		startTime = System.currentTimeMillis();
-	//	System.out.println("\nString to Bitset in "+ duration);
+		BitSet encodedBitString = Utils.getBitSetfromString(dataToEncode,encodingHashMap);
 		
 		byte[] encodedByteArray = encodedBitString.toByteArray();
-		duration = System.currentTimeMillis() - startTime;
-		startTime = System.currentTimeMillis();
-		System.out.println("\nBitset to Byte Array in "+ duration);
+		System.out.println("\nBitset to Byte Array");
 		
 		//HASHMAP USED FOR DECODING TO BE WRITTEN IN OUTPUT FROM CHARBITMAP
 		HashMap<String, Character> decodingHashMap = Utils.reverseMap(encodingHashMap);
-		duration = System.currentTimeMillis() - startTime;
-		startTime = System.currentTimeMillis();
-		System.out.println("\nDecoding Hashmap created in "+ duration);
+		System.out.println("\nDecoding Hashmap created");
 		
 		
 		//CREATING OUTPUT FILE
@@ -59,15 +47,14 @@ public class Encoding {
 		output.put('D', encodedByteArray);
 		Utils.createOutputFile(output,path);
 		
-		duration = System.currentTimeMillis() - startTime;
-		System.out.println("\nOutput file created in "+ duration);
+		System.out.println("\nOutput file created ");
 		
 
 		System.out.println("\n ***ENCODING FINISHED*** ");
 	}
 
 	//FUNCTION TO RETURN HASHMAP TO ENCODE STRING
-	private static HashMap<Character, String> encodeString(String text, long startTime) {
+	private static HashMap<Character, String> encodeString(String text) {
 		
 		//CREATING A HASHMAP FOR FREQUENCY OF DIFFERENT CHARACTERS IN STRING
 		int[] freqArray = new int[256];
@@ -76,10 +63,7 @@ public class Encoding {
 			freqArray[currentChar]++;
 		}
 		
-		//JUST TO CHECK IF FREQUENCIES ARE CORRECT
-		long duration = System.currentTimeMillis() - startTime;
-		startTime = System.currentTimeMillis();
-		System.out.println("\nFrequency Array created in "+ duration);
+		System.out.println("\nFrequency Array created");
 		
 		//CREATED MIN PRIORITY QUEUE
 		PriorityQueue<HuffmanNode> priorityQueue = new PriorityQueue<>();
@@ -93,9 +77,7 @@ public class Encoding {
 			priorityQueue.add(new HuffmanNode(currentChar, freqArray[i]));
 		}
 		
-		duration = System.currentTimeMillis() - startTime;
-		startTime = System.currentTimeMillis();
-		System.out.println("\nPriority Queue created in "+ duration);
+		System.out.println("\nPriority Queue created");
 		
 		//CREATING A HUFFMAN TREE
 		HuffmanNode root = null;
@@ -108,15 +90,12 @@ public class Encoding {
 			priorityQueue.add(root);
 		}
 		
-		duration = System.currentTimeMillis() - startTime;
-		startTime = System.currentTimeMillis();
-		System.out.println("\nHuffman Tree created in "+ duration);
+
+		System.out.println("\nHuffman Tree created");
 			
 		//CHARACTER AND STRING MAP FROM THE HUFFMAN TREE
 		HashMap<Character,String> charStringMap = getMapfromTree(root,"1"); 
-		duration = System.currentTimeMillis() - startTime;
-		startTime = System.currentTimeMillis();
-		System.out.println("\nEncoding HashMap created in "+ duration);
+		System.out.println("\nEncoding HashMap created");
 		
 		return charStringMap;
 	}
