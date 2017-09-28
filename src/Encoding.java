@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class Encoding {
 	
 	public static void main(String[] args) {
-				
+			
+		long startTime = System.currentTimeMillis();
 		//PATH TO THE FILE TO BE COMPRESSED
 		Scanner sc = new Scanner(System.in);
 		
@@ -49,8 +50,9 @@ public class Encoding {
 		
 		System.out.println("\nOutput file created ");
 		
+		long duration = System.currentTimeMillis() - startTime;
 
-		System.out.println("\n ***ENCODING FINISHED*** ");
+		System.out.println("\nEncoding finished in "+duration/1000f+" seconds");
 	}
 
 	//FUNCTION TO RETURN HASHMAP TO ENCODE STRING
